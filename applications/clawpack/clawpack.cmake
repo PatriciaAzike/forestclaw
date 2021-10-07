@@ -77,6 +77,8 @@ add_subdirectory(clawpack/transport/2d/sphere)
 add_subdirectory(clawpack/transport/2d/torus)
 add_subdirectory(clawpack/transport/2d/square)
 
+## latlong (manifold, periodic in one direction)
+add_subdirectory(clawpack/transport/2d/latlong)
 
 ## ----------------------------------------------------------
 ## Other hyperbolic problems (acoustics, Euler, burgers, SWE)

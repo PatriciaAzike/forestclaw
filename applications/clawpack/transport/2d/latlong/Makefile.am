@@ -1,0 +1,43 @@
+bin_PROGRAMS += applications/clawpack/transport/2d/latlong/latlong
+
+TESTS += applications/clawpack/transport/2d/latlong/regressions.sh
+
+applications_clawpack_transport_2d_latlong_latlong_SOURCES = \
+	applications/clawpack/transport/2d/latlong/latlong.cpp \
+	applications/clawpack/transport/2d/latlong/latlong_options.c \
+	applications/clawpack/transport/2d/latlong/latlong_user.h \
+	applications/clawpack/transport/2d/latlong/latlong_user.cpp \
+	applications/clawpack/transport/2d/latlong/fdisc.f \
+	applications/clawpack/transport/2d/latlong/setprob.f \
+	applications/clawpack/transport/2d/latlong/psi.f \
+	applications/clawpack/transport/2d/latlong/user_4.6/qinit.f \
+	applications/clawpack/transport/2d/all/transport_patch_setup_manifold.c\
+	applications/clawpack/transport/2d/all/fclaw2d_map_latlong.c \
+	applications/clawpack/transport/2d/all/transport46_setaux_manifold.f\
+	applications/clawpack/transport/2d/all/transport5_setaux_manifold.f\
+	applications/clawpack/transport/2d/all/transport_patch_setup_manifold.c \
+        applications/clawpack/transport/2d/all/transport_b4step2_manifold.c \
+	applications/clawpack/transport/2d/all/transport46_set_velocity.f \
+	applications/clawpack/transport/2d/all/transport5_set_velocity.f \
+        applications/clawpack/transport/2d/all/clawpack46_rpn2cons_fw_manifold.f \
+	applications/clawpack/transport/2d/all/clawpack46_rpt2cons_manifold.f \
+        applications/clawpack/transport/2d/all/rpn2cons_update_manifold.f
+
+#EXTRA_DIST += \
+#	applications/clawpack/advection/2d/latlong/fclaw_options.ini \
+#	applications/clawpack/advection/2d/latlong/regression.ini \
+#	applications/clawpack/advection/2d/latlong/afterframe.m \
+#	applications/clawpack/advection/2d/latlong/setplot2.m \
+#	applications/clawpack/advection/2d/latlong/mapc2m.m
+
+applications_clawpack_transport_2d_latlong_latlong_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	$(FCLAW_CLAWPACK46_CPPFLAGS) \
+	$(FCLAW_CLAWPATCH_CPPFLAGS)
+
+
+applications_clawpack_transport_2d_latlong_latlong_LDADD = \
+        $(LDADD) \
+        $(FCLAW_CLAWPACK46_LDADD) \
+        $(FCLAW_CLAWPATCH_LDADD)  \
+        $(FCLAW_LDADD)
