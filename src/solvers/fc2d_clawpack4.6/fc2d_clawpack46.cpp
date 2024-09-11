@@ -271,17 +271,17 @@ double clawpack46_step2(fclaw_global_t *glob,
 
 	clawpack_options = fc2d_clawpack46_get_options(glob);
 
-
+#if 0
 	FCLAW_ASSERT(claw46_vt->fort_rpn2 != NULL);
 	if (clawpack_options->order[1] > 0)
 		FCLAW_ASSERT(claw46_vt->fort_rpt2 != NULL);
+#endif
 
-#if 0
 	if (clawpack_options->use_fwaves)
 	{
-		FCLAW_ASSERT(claw46_vt->fort_rpn2 != NULL);
+		FCLAW_ASSERT(claw46_vt->fort_rpn2fw != NULL);
 		if (clawpack_options->order[1] > 0)
-			FCLAW_ASSERT(claw46_vt->fort_rpt2 != NULL);
+			FCLAW_ASSERT(claw46_vt->fort_rpt2fw != NULL);
 	}
 	else
 	{
@@ -289,7 +289,7 @@ double clawpack46_step2(fclaw_global_t *glob,
 		if (clawpack_options->order[1] > 0)
 			FCLAW_ASSERT(claw46_vt->fort_rpt2 != NULL);
 	}
-#endif
+
 
 
 	int level = patch->level;
@@ -361,12 +361,22 @@ double clawpack46_step2(fclaw_global_t *glob,
 
 	if (claw46_vt->flux2 == NULL)
 	{
-#if 0		
+		
 		claw46_vt->flux2 = (clawpack_options->use_fwaves != 0) ? &CLAWPACK46_FLUX2FW : 
 		                       &CLAWPACK46_FLUX2;	
-#endif		                       
+
+	}
+
+#if 0
+	if (claw46_vt->flux2 == NULL)
+	{
+		
+		claw46_vt->flux2 = (clawpack_options->use_fwaves != 0) ? &CLAWPACK46_FLUX2FW : 
+		                       &CLAWPACK46_FLUX2;	
+		                       
 		claw46_vt->flux2 = &CLAWPACK46_FLUX2;
 	}
+#endif
 
 	/* NOTE: qold will be overwritten in this step */
 	CLAWPACK46_SET_BLOCK(&blockno);
@@ -375,7 +385,7 @@ double clawpack46_step2(fclaw_global_t *glob,
 						  &mwaves,&mx, &my, qold, aux, &dx, &dy, &dt, &cflgrid,
 						  work, &mwork, &xlower, &ylower, &level,&t, fp, fm, gp, gm,
 						  claw46_vt->fort_rpn2, claw46_vt->fort_rpt2,
-						  claw46_vt->fort_rpn2, claw46_vt->fort_rpt2,
+						  claw46_vt->fort_rpn2fw, claw46_vt->fort_rpt2fw,
 						  claw46_vt->flux2,
 						  block_corner_count, &ierror, &clawpack_options->use_fwaves);
 	CLAWPACK46_UNSET_BLOCK();
@@ -539,6 +549,7 @@ void fc2d_clawpack46_solver_initialize(fclaw_global_t* glob)
 	claw46_vt->fort_qinit     = NULL;
 	claw46_vt->fort_rpn2      = NULL;
 	claw46_vt->fort_rpt2      = NULL;
+	
 
 	/* Optional functions - call only if non-NULL */
 	claw46_vt->fort_setprob   = NULL;
